@@ -1,0 +1,81 @@
+<html>
+<head>
+  <title>This is canvas watch</title>
+</head>
+<body>
+  <canvas id='canvas' width="500" height="500"></canvas>
+  <script type="text/javascript">
+    // code here
+    function watch(context, width, height, center) {
+      this.width = width
+      this.height = height
+      this.radius = width/2
+      this.center = center
+      this.context = context
+    }
+
+    watch.prototype.draw = function () {
+      self = this
+      function drawDialPlate () {
+        function drawDial(width, height, angle) {
+          self.context.save();
+
+          self.context.translate(self.center.x, self.center.y)
+          self.context.rotate(angle)
+
+          self.context.strokeStyle = 'blue'
+          self.context.lineWidth = width
+
+          self.context.beginPath()
+          self.context.moveTo(0, 0 - self.radius + 5)
+          self.context.lineTo(0, 0 - self.radius + 5 + height)
+
+          self.context.stroke()
+          self.context.restore()
+        }
+
+        drawDial(4, 12, 0)
+        drawDial(4, 12, Math.PI/2)
+        drawDial(4, 12, Math.PI)
+        drawDial(4, 12, Math.PI*3/2)
+      }
+
+      function drawCenter () {
+        self.context.beginPath()
+        self.context.arc(self.center.x, self.center.y, 5, 0, 2 * Math.PI, false);
+        self.context.stroke()
+      }
+
+      function drawFrame () {
+        self.context.strokeStyle = "red";
+        self.context.beginPath()
+        self.context.arc(self.center.x, self.center.y, self.radius, 0, 2 * Math.PI, false);
+        self.context.stroke();
+      }
+
+      function drawHands () {
+
+      }
+
+      drawFrame()
+      drawCenter()
+      drawDialPlate()
+      drawHands()
+    };
+
+    watch.prototype.start = function () {
+      // body...
+    };
+
+    watch.prototype.stop = function () {
+
+    };
+
+
+    var canvas = document.getElementById('canvas')
+    var context = canvas.getContext("2d");
+    var w = new watch(context, 150, 150, {x:200, y:200})
+    w.draw()
+
+  </script>
+</body>
